@@ -1,0 +1,136 @@
+{
+  "name": "codemaker",
+  "displayName": "CodeMaker",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.77.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "CodeMaker",
+      "properties": {
+        "codemaker.token": {
+          "type": "string",
+          "description": "Your CodeMaker Token"
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "codemaker.submenu",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "submenu": "codemaker.submenu",
+          "group": "navigation"
+        }
+      ],
+      "codemaker.submenu": [
+        {
+          "submenu": "codemaker.submenu.generate",
+          "group": "navigation"
+        },
+        {
+          "submenu": "codemaker.submenu.migrate",
+          "group": "navigation"
+        },
+        {
+          "submenu": "codemaker.submenu.refactor",
+          "group": "navigation"
+        }
+      ],
+      "codemaker.submenu.generate": [
+        {
+          "command": "extension.demo.codemaker.generate.doc",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.demo.codemaker.generate.unittest",
+          "group": "navigation"
+        }
+      ],
+      "codemaker.submenu.migrate": [
+        {
+          "command": "extension.demo.codemaker.migrate.java17",
+          "group": "navigation"
+        }
+      ],
+      "codemaker.submenu.refactor": [
+        {
+          "command": "extension.demo.codemaker.refactor.refactor",
+          "group": "navigation"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "codemaker.submenu",
+        "label": "CodeMaker"
+      },
+      {
+        "id": "codemaker.submenu.generate",
+        "label": "Generate"
+      },
+      {
+        "id": "codemaker.submenu.migrate",
+        "label": "Migrate"
+      },
+      {
+        "id": "codemaker.submenu.refactor",
+        "label": "Refactor"
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.demo.codemaker.generate.doc",
+        "title": "Documentation"
+      },
+      {
+        "command": "extension.demo.codemaker.generate.unittest",
+        "title": "Unit Test"
+      },
+      {
+        "command": "extension.demo.codemaker.migrate.java17",
+        "title": "Java 17"
+      },
+      {
+        "command": "extension.demo.codemaker.refactor.refactor",
+        "title": "Refactor"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "webpack --watch",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.77.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "@vscode/test-electron": "^2.3.0",
+    "axios-logger": "^2.6.2",
+    "eslint": "^8.36.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5"
+  }
+}
