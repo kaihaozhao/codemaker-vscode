@@ -16,7 +16,7 @@ class HttpClient {
                 'User-Agent': 'CodeMakerSDKJavaScript/1.1.0'
             },
         });
-        this.axiosInstance.interceptors.request.use(AxiosLogger.requestLogger);
+        // this.axiosInstance.interceptors.request.use(AxiosLogger.requestLogger);
     }
 
     createProcess<CreateProcessResponse>(body: CreateProcessRequest): Promise<AxiosResponse<CreateProcessResponse>> {

@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "CodeMaker" is now active!');
 
-	const token = vscode.workspace.getConfiguration().get('codemaker.token') as string
+	const token = vscode.workspace.getConfiguration().get('codemaker.token') as string;
 	const codeMakerService = new CodeMakerService(token);
 
 	context.subscriptions.push(vscode.commands.registerCommand('extension.demo.codemaker.generate.doc', (uri) => {
@@ -26,6 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 					if (err instanceof AuthenticationError) {
 						vscode.window.showInformationMessage(`Invalid token`);
 					} else {
+						console.error(err);
 						vscode.window.showInformationMessage(`Processing failed`);
 					}
 				});

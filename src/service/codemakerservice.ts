@@ -1,4 +1,5 @@
-import { promises as fs } from 'fs';
+import * as fs from 'fs'
+import * as path from 'path';
 import HttpClient from '../HttpClient';
 import { CreateProcessResponse, GetProcessOutputResponse, GetProcessStatusResponse, Language, Mode, Status } from '../model/Model';
 
@@ -10,15 +11,38 @@ class CodeMakerService {
         this.client = new HttpClient(token);
     }
 
+    /**
+     * Generate documentation for given source files.
+     * 
+     * @param path file or directory path.
+     */
     public async generateDocumentation(path: string) {
-        // TODO: add batch file processing
-        const source = await this.readFileAsync(path);
-        const output = await this.process(Mode.DOCUMENT, this.langFromFileExtention(path), source);
-        this.processFile(path, output);
+        return this.walkFiles(path, (filePath: string): Promise<void> => {
+            const source = fs.readFileSync(filePath, 'utf8');
+            const ext = this.langFromFileExtention(filePath);
+            if (ext == null) {
+                return Promise.resolve();
+            }
+            return this.process(Mode.DOCUMENT, ext, source)
+                .then((output) => {
+                    fs.writeFileSync(filePath, output)
+                });
+        });
     }
 
-    private async processFile(file: string, output: string) {
-        fs.writeFile(file, output);
+    private async walkFiles(root: string, processor: (filePath: string) => Promise<void>) {
+        if (fs.statSync(root).isFile()) {
+            return await processor(root);
+        }
+        for (const file of fs.readdirSync(root)) {
+            const filePath = path.join(root, file); 
+            const stats = fs.statSync(filePath);  
+            if (fs.statSync(filePath).isFile()) {
+                await processor(filePath);
+            } else if (stats.isDirectory()) {
+                await this.walkFiles(filePath, processor);  
+            } 
+        }
     }
 
     // TODO: add error handling
@@ -55,19 +79,16 @@ class CodeMakerService {
         })
         const output = (outputResponse.data as GetProcessOutputResponse).output;
         return output.source;
-
     }
 
-    private async readFileAsync(filePath: string): Promise<string> {
-        return await fs.readFile(filePath, 'utf8');
-    }
-
-    private langFromFileExtention(fileName: string): Language {
+    // TODO move to config file
+    private langFromFileExtention(fileName: string): Language | null {
         const ext = fileName.split('.').pop();
         if (ext === 'java') {
             return Language.JAVA;
         }
-        throw Error("unsupported language: " + ext);
+        console.info("unsupported language: " + ext);
+        return null;
     }
 }
 
