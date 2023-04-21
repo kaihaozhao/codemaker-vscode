@@ -8,7 +8,6 @@ class HttpClient {
     private static readonly API_ENDPOINT = 'https://api.codemaker.ai';
 
     constructor(private readonly token: string) {
-        console.log('tioken: ' + token);
         this.axiosInstance = axios.create({
             baseURL: HttpClient.API_ENDPOINT,
             headers: {
