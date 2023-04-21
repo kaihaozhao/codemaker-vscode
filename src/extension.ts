@@ -35,18 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// TODO
 	context.subscriptions.push(vscode.commands.registerCommand('extension.demo.codemaker.generate.unittest', (uri) => {
-		vscode.window.showInformationMessage(`Generating unit tests for ${uri ? uri.path : 'null'}`);
-		if (uri) {
-			vscode.window.showInformationMessage(`Unit tests generated for ${uri ? uri.path : 'null'}`);
-		}
+		vscode.window.showInformationMessage(`Comming soon`);
 	}));
 	
 	// TODO
 	context.subscriptions.push(vscode.commands.registerCommand('extension.demo.codemaker.migrate.java17', (uri) => {
-		vscode.window.showInformationMessage(`Migrating ${uri ? uri.path : 'null'} to Java 17：`);
-		if (uri) {
-			vscode.window.showInformationMessage(`Migrate ${uri ? uri.path : 'null'} to Java 17`);
-		}
+		vscode.window.showInformationMessage(`Comming soon`);
 	}));
 }
 
